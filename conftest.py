@@ -6,14 +6,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 @pytest.fixture
 def driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Required for CI
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
 
-    # ❌ Remove --incognito and user-data-dir prefs (causing CI conflict)
+    
 
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver.maximize_window()
     yield driver
     driver.quit()
