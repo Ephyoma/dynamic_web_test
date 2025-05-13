@@ -1,0 +1,38 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs and reports
+*.log
+reports/
+*.html
+
+# Environment and dependency files
+.env
+.venv/
+env/
+venv/
+Pipfile.lock
+
+# VSCode and PyCharm
+.vscode/
+.idea/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+*.bak
+*.tmp
+*.old
+
+# GitHub Actions cache (optional)
+*.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/

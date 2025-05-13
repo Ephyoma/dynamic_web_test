@@ -1,36 +1,19 @@
-name: Run Selenium Tests
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+@pytest.fixture
+def driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Required for CI
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+    # ❌ Remove --incognito and user-data-dir prefs (causing CI conflict)
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Run tests and generate HTML report
-      run: |
-        mkdir -p reports
-        pytest tests/ --html=reports/test_report.html --self-contained-html
-
-    - name: Upload test report
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-report
-        path: reports/test_report.html
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    yield driver
+    driver.quit()
