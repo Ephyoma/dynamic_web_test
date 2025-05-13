@@ -7,10 +7,20 @@ def test_login_then_navigate_to_form_auth(driver):
     driver.get("https://the-internet.herokuapp.com/login")
 
     # Step 2: Log in with valid credentials
-    driver.find_element(By.ID, "username").send_keys("tomsmith")
+    #driver.find_element(By.ID, "username").send_keys("tomsmith")
+    #driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
+    #driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+    
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "username"))
+    ).send_keys("tomsmith")
+
     driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "flash.success"))
+    )
     # Step 3: Wait until redirected to secure area
     WebDriverWait(driver, 10).until(EC.url_contains("/secure"))
     assert "secure" in driver.current_url
@@ -30,3 +40,18 @@ def test_login_then_navigate_to_form_auth(driver):
 
     # Optional: Save screenshot
     driver.save_screenshot("screenshots/form_auth_returned.png")
+
+
+def test_login_flow(driver):
+    driver.get("https://the-internet.herokuapp.com/login")
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "username"))
+    ).send_keys("tomsmith")
+
+    driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
+    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "flash.success"))
+    )

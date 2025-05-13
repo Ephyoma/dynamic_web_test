@@ -6,8 +6,10 @@ def test_full_login_logout_flow(driver):
     # Step 1: Open login page
     driver.get("https://the-internet.herokuapp.com/login")
 
-    # Step 2: Perform login
-    driver.find_element(By.ID, "username").send_keys("tomsmith")
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "username"))
+    ).send_keys("tomsmith")
+
     driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
