@@ -1,0 +1,21 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import pytest
+
+@pytest.fixture
+def driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Add this for GitHub CI
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    
+    # ❌ REMOVE the incognito and prefs
+    # chrome_options.add_argument("--incognito")
+    # chrome_options.add_experimental_option("prefs", {...})
+
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    yield driver
+    driver.quit()
