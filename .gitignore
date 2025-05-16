@@ -36,5 +36,3 @@ Thumbs.db
 coverage.xml
 htmlcov/
 .pytest_cache/
-"__pycache__/" 
-"reports/" 
